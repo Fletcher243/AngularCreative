@@ -1,0 +1,84 @@
+ <html>
+  <head>
+    <title>Arena</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="arena.css" rel="stylesheet">
+
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
+    <script src="app.js"></script>
+    <script src="//angular-ui.github.io/ui-router/release/angular-ui-router.js"></script>
+
+  </head>
+  <body ng-app="News" ng-controller="MainCtrl">
+  <div class="row">
+  <div class="col-md-6 col-md-offset-3">
+  <ui-view></ui-view>
+  </div>
+  </div>
+
+
+
+
+ <script type="text/ng-template" id="/home.html">
+  <div class="page-header"> 
+    <h1>Arena</h1>
+    <p> Add characters to the arena and battle! <br> Maybe even try to take down The Champion!!</p>
+  </div>
+    <form ng-submit="addcharacter()" style = "margin-top30px;">
+      <input type="text" ng-model="formContent" placeholder="Character Name"></input>
+      <button type="submit">Create</button>
+    </form>
+    <div>
+
+<strong>Characters</strong>
+<br>Click on characters to view their stats and have them battle<br><br>
+    </div>
+    <div ng-repeat="character in characters | orderBy: '-level'">
+    <a style="font-size:16px;" href="#/characters/{{characters.indexOf(character)}}">{{character.name}}</a> - Level: {{character.level}}
+    </div>
+  </div>  </div>
+  </div>
+</script>
+ <script type="text/ng-template" id="/characters.html">
+    <div class="page-header">
+      <h3>
+          {{character.name}} 
+      </h3>
+      <h4>
+       Level: {{character.level}}
+      <h4>
+     
+    </div>
+<p>Increase your stats here. <br> Level up in battles to increase your stat points. </p>
+    <div ng-repeat="stat in character.stats">
+      <span class="glyphicon glyphicon-arrow-up"
+        ng-click="incrementStat(stat)"></span>
+      <span style="font-size:20px; margin-left:10px;">
+        {{stat.name}} : {{stat.level}}
+      </span>
+    </div>
+<br>
+      <span style="font-size:16px; margin-left:10px;">
+       Stat Points: {{character.points}}
+      </span>
+<br><br>
+      <span style="font-size:16px; margin-left:10px;">
+       Experience: {{character.exp}}
+      </span>
+      
+
+    <form ng-submit="Battle()"
+      style="margin-top:30px;">
+
+      <div class="form-group">
+      </div>
+      <p> Click to battle a random opponent!</p>
+      <button type="submit" class="btn btn-danger btn-block">Battle!</button>
+      <br><br>
+      <a  href="#/home"><button type="button" class="btn btn-info btn-xs" href="#/home">Back</button></a>
+
+    </form>
+
+  </script>
+  </body>
+  </html>
