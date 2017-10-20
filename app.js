@@ -69,11 +69,14 @@ angular.module('News', ['ui.router'])
       if(character.level * 10 < character.exp){
         old = character.level;
         character.level = Math.floor(character.exp / 10);
-        character.points += (3 * character.level - old);
+        character.points += (3 * (character.level - old));
       }
     }
     $scope.Battle = function(){
-      if(characterFactory.characters.length < 2) { return; }
+      if(characterFactory.characters.length < 2) { 
+        alert("There must be more than one character in the arena to battle!");
+        return;
+      }
         var opponent = Math.floor(Math.random()*characterFactory.characters.length);
 
         while(opponent == $stateParams.id){
@@ -87,16 +90,16 @@ angular.module('News', ['ui.router'])
                 
         var oPower = characterFactory.characters[opponent].power;
         var power = $scope.character.power; 
-        var attack = Math.floor(Math.random()*power) + Math.floor(power / 20);
-        var defense = Math.floor(Math.random()*oPower) + Math.floor(oPower / 20);
-        if(attack > defense) {
+        var attack = Math.floor(Math.random()*power) + Math.floor(power / 20) + 1;
+        var defense = Math.floor(Math.random()*oPower) + Math.floor(oPower / 20) + 1;
+        if(attack >= defense) {
           if(characterFactory.characters[opponent].name === "The Champion"){
-             alert("You beat the Champion!! You're good. You gained " + defense + " experience!");
+             alert("You beat the Champion!! You're good. You gained " + (defense + attack) + " experience!");
           }
           else {
-            alert("You won! You gained " + defense + " experience!");
+            alert("You won against " + characterFactory.characters[opponent].name + "! You gained " + (defense + attack) + " experience!");
           }
-          $scope.levelUp($scope.character,defense);
+          $scope.levelUp($scope.character,(defense + attack));
         }
         else {
           alert("You lost... " + characterFactory.characters[opponent].name + " gained " + attack + " experience!");
